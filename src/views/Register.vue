@@ -29,6 +29,12 @@
         :rules="[{required:true,message:'请填写用户名或手机号码'}]"
       />
       <van-field
+        v-model="form.nickname"
+        name="昵称"
+        placeholder="请输入昵称"
+        :rules="[{required:true,message:'请填写昵称'}]"
+      />
+      <van-field
         v-model="form.password"
         type="password"
         name="密码"
@@ -36,11 +42,11 @@
         :rules="[{required:true,message:'请填写密码'}]"
       />
       <div>
-        <van-button round block type="info" native-type="submit">登录</van-button>
+        <van-button round block type="info" native-type="submit">注册</van-button>
       </div>
     </van-form>
-    <router-link to="/register">
-      <van-button round block class="zhece">注册</van-button>
+    <router-link to="/login">
+      <van-button round block class="zhece">登录</van-button>
     </router-link>
   </div>
 </template>
@@ -51,7 +57,8 @@ export default {
     return {
       form: {
         username: "",
-        password: ""
+        password: "",
+        nickname: ""
       }
     };
   },
@@ -85,7 +92,7 @@ export default {
       // 相当于ajax请求
       this.$axios({
         // 接口地址
-        url: "/login",
+        url: "/register",
         // 这里的method没有s，注意！！！
         // 请求方式
         method: "POST",
@@ -95,14 +102,10 @@ export default {
         // 成功的回调函数
       }).then(res => {
         // 获取返回的提示信息
-        // console.log(res);
-        const { message, data } = res.data;
+        console.log(res);
+        const { message } = res.data;
         // 插件 请提示
         this.$toast.success(message);
-        // token和id保存到本地
-        localStorage.setItem("userInfo", JSON.stringify(data));
-
-        this.$router.push("/personal");
       });
       // 不要这个value
       // console.log("submit", value);
